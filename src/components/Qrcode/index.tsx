@@ -4,29 +4,50 @@ import QRCode from 'qrcode.react';
 
 const Qrcode: React.FC = () => {
   const [text, setText] = useState('');
-  const [showQRCode, setShowQRCode] = useState(false);
-  const [isLightTheme, setIsLightTheme] = useState(true); // Change this based on theme
-
+  const [isLightTheme, setIsLightTheme] = useState(true);
+  const [qrCodeGenerated, setQRCodeGenerated] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
   };
 
   const handleGenerateQRCode = () => {
-    setShowQRCode(true);
+    setQRCodeGenerated(true);
   };
 
+  const handleDownloadQRCode = () => {
+    if (qrCodeGenerated) {
+      const svgString = document.querySelector(".qrcode svg")?.outerHTML;
+      if (svgString) {
+        const blob = new Blob([svgString], { type: 'image/svg+xml' });
+        const blobUrl = URL.createObjectURL(blob);
+
+        const anchor = document.createElement("a");
+        anchor.href = blobUrl;
+        anchor.download = "qrcode.svg";
+        anchor.click();
+
+        URL.revokeObjectURL(blobUrl);
+      }
+    }
+  };
+
+  const handleQRCodeDoubleClick = () => {
+    // Implemente a ação desejada para o clique duplo no QR code aqui
+    console.log('Clique duplo no QR code!');
+  };
   return (
     <Container>
       <div className="qr-code-placeholder">
-        {showQRCode && text ? (
-          <QRCode value={text} className="qrcode" />
+        {qrCodeGenerated && text ? (
+          <QRCode value={text} className="qrcode" onDoubleClick={handleQRCodeDoubleClick} />
         ) : (
           <div className="qr-code-placeholder-content" />
         )}
       </div>
       <div className="input-container">
-      <input
+        <input
           placeholder="TEXTO"
           className={`input ${isLightTheme ? 'light-theme' : 'dark-theme'}`}
           name="text"
@@ -36,10 +57,10 @@ const Qrcode: React.FC = () => {
         />
       </div>
       <div className="button-container">
-        <button onClick={handleGenerateQRCode} type="button" className="button">
-          <span className="button__text">QR Code</span>
+        <button onClick={qrCodeGenerated ? handleDownloadQRCode : handleGenerateQRCode} type="button" className="button">
+          <span className="button__text">{qrCodeGenerated ? 'Download' : 'QR Code'}</span>
           <span className="button__icon">
-            <svg
+          <svg
               className="svg"
               data-name="Layer 2"
               id="bdd05811-e15d-428c-bb53-8661459f9307"
