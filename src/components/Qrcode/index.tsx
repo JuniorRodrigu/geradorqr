@@ -6,7 +6,6 @@ const Qrcode: React.FC = () => {
   const [text, setText] = useState('');
   const [isLightTheme, setIsLightTheme] = useState(true);
   const [qrCodeGenerated, setQRCodeGenerated] = useState(false);
-  const [clickCount, setClickCount] = useState(0);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
@@ -33,15 +32,11 @@ const Qrcode: React.FC = () => {
     }
   };
 
-  const handleQRCodeDoubleClick = () => {
-    // Implemente a ação desejada para o clique duplo no QR code aqui
-    console.log('Clique duplo no QR code!');
-  };
   return (
     <Container>
       <div className="qr-code-placeholder">
         {qrCodeGenerated && text ? (
-          <QRCode value={text} className="qrcode" onDoubleClick={handleQRCodeDoubleClick} />
+          <QRCode value={text} className="qrcode" />
         ) : (
           <div className="qr-code-placeholder-content" />
         )}
