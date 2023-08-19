@@ -34,14 +34,14 @@ export const Container = styled.div`
   .input {
     /* Estilos da classe .input que você definiu */
     border-radius: 10px;
-    outline: 2px solid #FEBF00;
+    outline: 2px solid #3d7eae;
     border: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: #e2e2e2;
     outline-offset: 3px;
-    padding: 4% 5rem; /* Definido o padding em porcentagem */
+    padding: 4% 5rem; 
     transition: 0.25s;
-    line-height: 1.5; /* Ajuste conforme necessário para centralizar verticalmente */
+    line-height: 1.5; 
      text-align: center; 
   
   }
