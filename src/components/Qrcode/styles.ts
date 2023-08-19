@@ -1,45 +1,63 @@
 import styled from 'styled-components';
 
-
-
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  .qr-code-placeholder.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 200px;
+    width: 50%;
+    margin-bottom: 20px;
+    background-color: #FFFFFF;
+  }
   
   .qr-code-placeholder {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px; 
-    width: 100%;
-    margin-bottom: 20px;
+    margin-top: 200px;
+    width: 50%; /* Defina a largura desejada, por exemplo, 40% */
    
+    margin-bottom: 20px;
+    
   }
+  
 
   .qr-code-placeholder-content {
     height: 128px;
     width: 128px;
-
   }
 
-  /* Adicione isso ao seu arquivo de estilos CSS */
   .input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    width: 100%;
-  }
+    /* Estilos da classe .input que você definiu */
+    border-radius: 10px;
+    outline: 2px solid #FEBF00;
+    border: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #e2e2e2;
+    outline-offset: 3px;
+    padding: 4% 5rem; /* Definido o padding em porcentagem */
+    transition: 0.25s;
+    line-height: 1.5; /* Ajuste conforme necessário para centralizar verticalmente */
+     text-align: center; 
   
+  }
+
+  .input:focus {
+    outline-offset: 5px;
+    background-color: #fff;
+  }
+
   .light-theme .input {
     color: black; /* Cor do texto para o tema claro */
   }
-  
+
   .dark-theme .input {
     color: white; /* Cor do texto para o tema escuro */
   }
-  
 
   .input-container {
     display: flex;
@@ -48,19 +66,6 @@ export const Container = styled.div`
     margin-bottom: 20px;
   }
 
-  .input {
-    margin: 10px;
-    background: none;
-    border: none;
-    outline: none;
-    max-width: 190px;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 9999px;
-    box-shadow: inset 2px 5px 10px rgb(5, 5, 5);
-    color: #fff; /* Dark theme text color */
-  }
-  
   .light-theme .input {
     color: #000; /* Light theme text color */
   }

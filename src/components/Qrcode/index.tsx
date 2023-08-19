@@ -6,13 +6,17 @@ const Qrcode: React.FC = () => {
   const [text, setText] = useState('');
   const [isLightTheme, setIsLightTheme] = useState(true);
   const [qrCodeGenerated, setQRCodeGenerated] = useState(false);
+  const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
   };
 
   const handleGenerateQRCode = () => {
-    setQRCodeGenerated(true);
+    if (text.trim() !== '') { // Verifica se o campo de entrada não está vazio
+      setQRCodeGenerated(true);
+      setButtonClicked(true);
+    }
   };
 
   const handleDownloadQRCode = () => {
@@ -34,9 +38,9 @@ const Qrcode: React.FC = () => {
 
   return (
     <Container>
-      <div className="qr-code-placeholder">
+      <div className={`qr-code-placeholder ${buttonClicked ? 'show' : ''}`}>
         {qrCodeGenerated && text ? (
-          <QRCode value={text} className="qrcode" />
+          <QRCode value={text} size={200} className="qrcode" />
         ) : (
           <div className="qr-code-placeholder-content" />
         )}
@@ -52,10 +56,10 @@ const Qrcode: React.FC = () => {
         />
       </div>
       <div className="button-container">
-        <button onClick={qrCodeGenerated ? handleDownloadQRCode : handleGenerateQRCode} type="button" className="button">
+        <button onClick={handleGenerateQRCode} type="button" className="button" disabled={text.trim() === ''}>
           <span className="button__text">{qrCodeGenerated ? 'Download' : 'QR Code'}</span>
           <span className="button__icon">
-          <svg
+            <svg
               className="svg"
               data-name="Layer 2"
               id="bdd05811-e15d-428c-bb53-8661459f9307"
