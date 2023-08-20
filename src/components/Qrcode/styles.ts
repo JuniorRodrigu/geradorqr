@@ -78,7 +78,7 @@ export const Container = styled.div`
     --bg-color: #323232;
     --main-color: #dedede;
     position: relative;
-    width: 150px;
+    width: 155px;
     height: 40px;
     cursor: pointer;
     display: flex;
