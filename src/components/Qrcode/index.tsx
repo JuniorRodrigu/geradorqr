@@ -1,44 +1,47 @@
 import React, { useState } from 'react';
 import { Container } from "./styles";
 import QRCode from 'qrcode.react';
+import html2canvas from 'html2canvas';
 
 const Qrcode: React.FC = () => {
   const [text, setText] = useState('');
   const [isLightTheme, setIsLightTheme] = useState(true);
   const [qrCodeGenerated, setQRCodeGenerated] = useState(false);
-  const [buttonClicked, setButtonClicked] = useState(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
   };
 
   const handleGenerateQRCode = () => {
-    if (text.trim() !== '') { // Verifica se o campo de entrada não está vazio
-      setQRCodeGenerated(true);
-      setButtonClicked(true);
+    if (text.trim() !== '') {
+      setQRCodeGenerated(!qrCodeGenerated); // Toggle the QR code generation state
     }
   };
 
   const handleDownloadQRCode = () => {
     if (qrCodeGenerated) {
-      const svgString = document.querySelector(".qrcode svg")?.outerHTML;
-      if (svgString) {
-        const blob = new Blob([svgString], { type: 'image/svg+xml' });
-        const blobUrl = URL.createObjectURL(blob);
+      const qrCodeElement = document.querySelector(".qrcode") as HTMLElement;
+      if (qrCodeElement) {
+        html2canvas(qrCodeElement).then((canvas: HTMLCanvasElement) => {
+          const imageUrl = canvas.toDataURL("image/png");
 
-        const anchor = document.createElement("a");
-        anchor.href = blobUrl;
-        anchor.download = "qrcode.svg";
-        anchor.click();
+          const a = document.createElement("a");
+          a.href = imageUrl;
+          a.download = "qrcode.png";
+          a.style.display = "none";
+          document.body.appendChild(a);
 
-        URL.revokeObjectURL(blobUrl);
+          a.click();
+
+          document.body.removeChild(a);
+        });
       }
     }
   };
 
   return (
     <Container>
-      <div className={`qr-code-placeholder ${buttonClicked ? 'show' : ''}`}>
+      <div className={`qr-code-placeholder ${qrCodeGenerated ? 'show' : ''}`}>
         {qrCodeGenerated && text ? (
           <QRCode value={text} size={200} className="qrcode" />
         ) : (
@@ -56,7 +59,7 @@ const Qrcode: React.FC = () => {
         />
       </div>
       <div className="button-container">
-        <button onClick={handleGenerateQRCode} type="button" className="button" disabled={text.trim() === ''}>
+        <button onClick={qrCodeGenerated ? handleDownloadQRCode : handleGenerateQRCode} type="button" className="button" disabled={text.trim() === ''}>
           <span className="button__text">{qrCodeGenerated ? 'Download' : 'QR Code'}</span>
           <span className="button__icon">
             <svg
@@ -66,7 +69,9 @@ const Qrcode: React.FC = () => {
               viewBox="0 0 35 35"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path d="M17.5,22.131a1.249,1.249,0,0,1-1.25-1.25V2.187a1.25,1.25,0,0,1,2.5,0V20.881A1.25,1.25,0,0,1,17.5,22.131Z"></path><path d="M17.5,22.693a3.189,3.189,0,0,1-2.262-.936L8.487,15.006a1.249,1.249,0,0,1,1.767-1.767l6.751,6.751a.7.7,0,0,0,.99,0l6.751-6.751a1.25,1.25,0,0,1,1.768,1.767l-6.752,6.751A3.191,3.191,0,0,1,17.5,22.693Z"></path><path d="M31.436,34.063H3.564A3.318,3.318,0,0,1,.25,30.749V22.011a1.25,1.25,0,0,1,2.5,0v8.738a.815.815,0,0,0,.814.814H31.436a.815.815,0,0,0,.814-.814V22.011a1.25,1.25,0,1,1,2.5,0v8.738A3.318,3.318,0,0,1,31.436,34.063Z"></path>
+              <path d="M17.5,22.131a1.249,1.249,0,0,1-1.25-1.25V2.187a1.25,1.25,0,0,1,2.5,0V20.881A1.25,1.25,0,0,1,17.5,22.131Z"></path>
+              <path d="M17.5,22.693a3.189,3.189,0,0,1-2.262-.936L8.487,15.006a1.249,1.249,0,0,1,1.767-1.767l6.751,6.751a.7.7,0,0,0,.990,0l6.751-6.751a1.25,1.25,0,0,1,1.768,1.767l-6.752,6.751A3.191,3.191,0,0,1,17.5,22.693Z"></path>
+              <path d="M31.436,34.063H3.564A3.318,3.318,0,0,1,.25,30.749V22.011a1.25,1.25,0,0,1,2.5,0v8.738a.815.815,0,0,0,.814.814H31.436a.815.815,0,0,0,.814-.814V22.011a1.25,1.25,0,1,1,2.5,0v8.738A3.318,3.318,0,0,1,31.436,34.063Z"></path>
             </svg>
           </span>
         </button>
