@@ -22,6 +22,17 @@ const App = () => {
         <GlobalStyle />
         <Header toggleTheme={toggleTheme} />
         <Qrcode/>
+        <div dangerouslySetInnerHTML={{ __html: `
+          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4032184268166534" crossorigin="anonymous"></script>
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-4032184268166534"
+               data-ad-slot="YOUR_AD_SLOT_ID"
+               data-ad-format="auto"></ins>
+          <script>
+               (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        ` }} />
       </div>
     </ThemeProvider>
   );
